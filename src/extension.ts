@@ -12,11 +12,12 @@ import { JavaDebugConfigurationProvider } from "./configurationProvider";
 import { HCR_EVENT, JAVA_LANGID, USER_NOTIFICATION_EVENT } from "./constants";
 import { NotificationBar } from "./customWidget";
 import { initializeCodeLensProvider, startDebugging } from "./debugCodeLensProvider";
+import { initExpService } from "./experimentationService";
 import { handleHotCodeReplaceCustomEvent, initializeHotCodeReplace, NO_BUTTON, YES_BUTTON } from "./hotCodeReplace";
 import { JavaDebugAdapterDescriptorFactory } from "./javaDebugAdapterDescriptorFactory";
+import { JavaInlineValuesProvider } from "./JavaInlineValueProvider";
 import { logJavaException, logJavaInfo } from "./javaLogger";
 import { IMainClassOption, IMainMethod, resolveMainMethod } from "./languageServerPlugin";
-import { logger, Type } from "./logger";
 import { mainClassPicker  } from "./mainClassPicker";
 import { pickJavaProcess } from "./processPicker";
 import { IProgressReporter } from "./progressAPI";
@@ -24,20 +25,19 @@ import { progressProvider } from "./progressImpl";
 import { JavaTerminalLinkProvder } from "./terminalLinkProvider";
 import { initializeThreadOperations } from "./threadOperations";
 import * as utility from "./utility";
+import { registerVariableMenuCommands } from "./variableMenu";
 
 export async function activate(context: vscode.ExtensionContext): Promise<any> {
     await initializeFromJsonFile(context.asAbsolutePath("./package.json"), {
         firstParty: true,
     });
+    await initExpService(context);
     return instrumentOperation("activation", initializeExtension)(context);
 }
 
 function initializeExtension(_operationId: string, context: vscode.ExtensionContext): any {
-    // Deprecated
-    logger.initialize(context, true);
-
     registerDebugEventListener(context);
-    context.subscriptions.push(logger);
+    registerVariableMenuCommands(context);
     context.subscriptions.push(vscode.window.registerTerminalLinkProvider(new JavaTerminalLinkProvder()));
     context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider("java", new JavaDebugConfigurationProvider()));
     context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("java", new JavaDebugAdapterDescriptorFactory()));
@@ -76,6 +76,7 @@ function initializeExtension(_operationId: string, context: vscode.ExtensionCont
     initializeCodeLensProvider(context);
     initializeThreadOperations(context);
 
+    context.subscriptions.push(vscode.languages.registerInlineValuesProvider("java", new JavaInlineValuesProvider()));
     return {
         progressProvider,
     };
@@ -109,9 +110,6 @@ function registerDebugEventListener(context: vscode.ExtensionContext) {
                     } else {
                         logJavaInfo(commonProperties, measureProperties);
                     }
-
-                    // Deprecated
-                    logger.log(entry.scope === "exception" ? Type.EXCEPTION : Type.USAGEDATA, commonProperties, measureProperties);
                 });
             }
         });

@@ -2,11 +2,15 @@
   "name": "vscode-java-debug",
   "displayName": "Debugger for Java",
   "description": "A lightweight Java debugger for Visual Studio Code",
-  "version": "0.31.0",
+  "version": "0.33.0",
   "publisher": "vscjava",
   "preview": true,
   "aiKey": "67d4461e-ccba-418e-8082-1bd0acfe8516",
   "icon": "logo.png",
+  "workspaceTrust": {
+    "request": "onDemand",
+    "description": "Extension may require your trust on workspace for code execution."
+  },
   "keywords": [
     "java",
     "debug",
@@ -14,7 +18,7 @@
     "debugger"
   ],
   "engines": {
-    "vscode": "^1.49.0"
+    "vscode": "^1.55.0"
   },
   "license": "SEE LICENSE IN LICENSE.txt",
   "repository": {
@@ -47,7 +51,7 @@
       }
     ],
     "javaExtensions": [
-      "./server/com.microsoft.java.debug.plugin-0.30.0.jar"
+      "./server/com.microsoft.java.debug.plugin-0.31.0.jar"
     ],
     "commands": [
       {
@@ -60,12 +64,12 @@
       },
       {
         "command": "java.debug.runJavaFile",
-        "title": "Run",
+        "title": "Run Java",
         "icon": "$(play)"
       },
       {
         "command": "java.debug.debugJavaFile",
-        "title": "Debug",
+        "title": "Debug Java",
         "icon": "$(debug-alt-small)"
       },
       {
@@ -92,6 +96,46 @@
       {
         "command": "java.debug.pauseOthers",
         "title": "Pause Others"
+      },
+      {
+        "command": "java.debug.variables.showHex",
+        "title": "Show as Hex"
+      },
+      {
+        "command": "java.debug.variables.notShowHex",
+        "title": "Show as Dec"
+      },
+      {
+        "command": "java.debug.variables.showQualifiedNames",
+        "title": "Show Qualified Names"
+      },
+      {
+        "command": "java.debug.variables.notShowQualifiedNames",
+        "title": "Show Simple Names"
+      },
+      {
+        "command": "java.debug.variables.showStaticVariables",
+        "title": "Show Static Variables"
+      },
+      {
+        "command": "java.debug.variables.notShowStaticVariables",
+        "title": "Hide Static Variables"
+      },
+      {
+        "command": "java.debug.variables.showLogicalStructure",
+        "title": "Enable Logical Structure View"
+      },
+      {
+        "command": "java.debug.variables.notShowLogicalStructure",
+        "title": "Disable Logical Structure View"
+      },
+      {
+        "command": "java.debug.variables.showToString",
+        "title": "Enable 'toString()' Object View"
+      },
+      {
+        "command": "java.debug.variables.notShowToString",
+        "title": "Disable 'toString()' Object View"
       }
     ],
     "menus": {
@@ -136,16 +180,16 @@
           "group": "javadebug@2"
         }
       ],
-      "editor/title": [
+      "editor/title/run": [
         {
           "command": "java.debug.runJavaFile",
           "when": "resourceExtname == .java",
-          "group": "1_run@10"
+          "group": "1_javadebug@10"
         },
         {
           "command": "java.debug.debugJavaFile",
           "when": "resourceExtname == .java",
-          "group": "1_run@20"
+          "group": "1_javadebug@20"
         }
       ],
       "debug/toolBar": [
@@ -209,6 +253,98 @@
         {
           "command": "java.debug.debugFromProjectView",
           "when": "false"
+        },
+        {
+          "command": "java.debug.variables.showHex",
+          "when": "false"
+        },
+        {
+          "command": "java.debug.variables.notShowHex",
+          "when": "false"
+        },
+        {
+          "command": "java.debug.variables.showQualifiedNames",
+          "when": "false"
+        },
+        {
+          "command": "java.debug.variables.notShowQualifiedNames",
+          "when": "false"
+        },
+        {
+          "command": "java.debug.variables.showStaticVariables",
+          "when": "false"
+        },
+        {
+          "command": "java.debug.variables.notShowStaticVariables",
+          "when": "false"
+        },
+        {
+          "command": "java.debug.variables.showLogicalStructure",
+          "when": "false"
+        },
+        {
+          "command": "java.debug.variables.notShowLogicalStructure",
+          "when": "false"
+        },
+        {
+          "command": "java.debug.variables.showToString",
+          "when": "false"
+        },
+        {
+          "command": "java.debug.variables.notShowToString",
+          "when": "false"
+        }
+      ],
+      "debug/variables/context": [
+        {
+          "command": "java.debug.variables.showHex",
+          "when": "debugType == 'java' && javadebug:showHex == 'off'",
+          "group": "1_view@1"
+        },
+        {
+          "command": "java.debug.variables.notShowHex",
+          "when": "debugType == 'java' && javadebug:showHex == 'on'",
+          "group": "1_view@1"
+        },
+        {
+          "command": "java.debug.variables.showQualifiedNames",
+          "when": "debugType == 'java' && javadebug:showQualifiedNames == 'off'",
+          "group": "1_view@2"
+        },
+        {
+          "command": "java.debug.variables.notShowQualifiedNames",
+          "when": "debugType == 'java' && javadebug:showQualifiedNames == 'on'",
+          "group": "1_view@2"
+        },
+        {
+          "command": "java.debug.variables.showStaticVariables",
+          "when": "debugType == 'java' && javadebug:showStaticVariables == 'off'",
+          "group": "1_view@3"
+        },
+        {
+          "command": "java.debug.variables.notShowStaticVariables",
+          "when": "debugType == 'java' && javadebug:showStaticVariables == 'on'",
+          "group": "1_view@3"
+        },
+        {
+          "command": "java.debug.variables.showLogicalStructure",
+          "when": "debugType == 'java' && javadebug:showLogicalStructure == 'off'",
+          "group": "1_view@4"
+        },
+        {
+          "command": "java.debug.variables.notShowLogicalStructure",
+          "when": "debugType == 'java' && javadebug:showLogicalStructure == 'on'",
+          "group": "1_view@4"
+        },
+        {
+          "command": "java.debug.variables.showToString",
+          "when": "debugType == 'java' && javadebug:showToString == 'off'",
+          "group": "1_view@5"
+        },
+        {
+          "command": "java.debug.variables.notShowToString",
+          "when": "debugType == 'java' && javadebug:showToString == 'on'",
+          "group": "1_view@5"
         }
       ]
     },
@@ -403,7 +539,10 @@
                 "description": "%java.debugger.attach.hostName.description%"
               },
               "port": {
-                "type": "number",
+                "type": [
+                  "number",
+                  "string"
+                ],
                 "description": "%java.debugger.attach.port.description%"
               },
               "processId": {
@@ -768,7 +907,7 @@
     "@types/mocha": "^5.2.7",
     "@types/node": "^14.14.10",
     "@types/uuid": "^8.3.0",
-    "@types/vscode": "1.49.0",
+    "@types/vscode": "1.55.0",
     "cross-env": "^5.2.0",
     "gulp": "^4.0.2",
     "gulp-tslint": "^8.1.4",
@@ -785,7 +924,9 @@
     "compare-versions": "^3.6.0",
     "lodash": "^4.17.20",
     "uuid": "^8.3.1",
-    "vscode-extension-telemetry": "^0.1.6",
-    "vscode-extension-telemetry-wrapper": "^0.8.0"
+    "vscode-extension-telemetry-wrapper": "^0.9.0",
+    "vscode-languageclient": "6.0.0-next.9",
+    "vscode-languageserver-types": "3.16.0",
+    "vscode-tas-client": "^0.1.22"
   }
 }

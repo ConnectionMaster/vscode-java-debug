@@ -4,6 +4,34 @@ All notable changes to the "vscode-java-debugger" extension will be documented i
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.33.0 - 2021-04-28
+### Added
+- Support inline values feature. [PR#977](https://github.com/microsoft/vscode-java-debug/pull/977).
+- Show VARIABLES with different data views. [PR#982](https://github.com/microsoft/vscode-java-debug/pull/982).
+- Adopt new APIs from vscode-tas-client. [#974](https://github.com/microsoft/vscode-java-debug/pull/974).
+- Adopt workspaceTrust in package.json. [PR#988](https://github.com/microsoft/vscode-java-debug/pull/988).
+
+### Changed
+- Engineering: Clean up deprecated logs. [PR#987](https://github.com/microsoft/vscode-java-debug/pull/987).
+
+### Fixed
+- Breakpoints inside record methods don't work. [#973](https://github.com/microsoft/vscode-java-debug/issues/973).
+- Support environment variable for port number in launch.json debug configuration. [#962](https://github.com/microsoft/vscode-java-debug/issues/962).
+- Thanks for the contribution from [ZingBlue](https://github.com/ZingBlue): Spelling fix. [#968](https://github.com/microsoft/vscode-java-debug/pull/968).
+
+## 0.32.1 - 2021-03-23
+### Fixed
+- Cannot launch debug session using JDK 16. [#970](https://github.com/microsoft/vscode-java-debug/issues/970).
+
+## 0.32.0 - 2021-03-12
+### Added
+- Adopt TAS client for A/B testing. [PR#959](https://github.com/microsoft/vscode-java-debug/pull/959).
+
+### Changed
+- Update to new product logo. [PR#952](https://github.com/microsoft/vscode-java-debug/pull/952).
+- Adopt new 'run' menu in editor title. [PR#956](https://github.com/microsoft/vscode-java-debug/pull/956),[PR#960](https://github.com/microsoft/vscode-java-debug/pull/960).
+- Engineering - Enable GitHub Actions. [PR#951](https://github.com/microsoft/vscode-java-debug/pull/951).
+
 ## 0.31.0 - 2021-02-02
 ### Added
 - Support envFile option in launch.json. [#523](https://github.com/microsoft/vscode-java-debug/issues/523).
